@@ -13,18 +13,18 @@ public class ReplacementHelper {
      * @return The output is the same as {@code characteres} but with spaces replaced by "&32".
      */
     public static char[] replaceSpaces(char[] characteres) {
-        for (int i = 0; i < characteres.length; i++) {
-            char character = characteres[i];
-            int lastNonSpaceIndex = lastNonSpaceIndex(characteres);
-            if (character == SPACE_CHAR) {
-                for (int j = lastNonSpaceIndex; j > i; j--) {
-                    char currentChar = characteres[j];
-                    int nextIndex = j + 2;
-                    characteres[nextIndex] = currentChar;
-                }
-                characteres[i] = '&';
-                characteres[i + 1] = '3';
-                characteres[i + 2] = '2';
+        int lastNonSpaceIndex = lastNonSpaceIndex(characteres);
+        int replacementIndex = characteres.length;
+        for (int i = lastNonSpaceIndex; i >= 0; i--) {
+            char currentChar = characteres[i];
+            replacementIndex--;
+            if (currentChar == SPACE_CHAR) {
+                replacementIndex = replacementIndex - 2;
+                characteres[replacementIndex] = '&';
+                characteres[replacementIndex + 1] = '3';
+                characteres[replacementIndex + 2] = '2';
+            } else {
+                characteres[replacementIndex] = currentChar;
             }
         }
         return characteres;
